@@ -16,26 +16,22 @@ body {
 
 /* ===============================
    输入框 & 输出框（内容字体在这里改）
-   font-family: 控制框内文字字体
-   font-size: 控制框内文字大小
    =============================== */
 textarea,
 pre {
     width: 100%;
     box-sizing: border-box;
-    font-family: Verdana, sans-serif;   /* ← 框内文字字体 */
-    font-size: 16px;                    /* ← 框内文字字号 */
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
     margin-bottom: 12px;
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
 }
 
-/* 输入框高度 */
 #kingdoms { height: 170px; }
 #attendees { height: 120px; }
 
-/* 输出框高度 */
 pre {
     height: 170px;
     background: #ffffff;
@@ -45,7 +41,7 @@ pre {
 }
 
 /* ===============================
-   所有按钮统一风格（未改）
+   按钮
    =============================== */
 button {
     padding: 10px 22px;
@@ -63,7 +59,6 @@ button:hover {
     background-color: #c9a4dd;
 }
 
-/* 主按钮 */
 .main-btn {
     margin-top: 12px;
     margin-bottom: 12px;
@@ -71,7 +66,6 @@ button:hover {
     padding: 12px 26px;
 }
 
-/* PASTE / COPY 按钮 */
 .small-btn {
     position: absolute;
     z-index: 10;
@@ -90,25 +84,39 @@ button:hover {
 }
 
 /* ===============================
-   label 样式（标题文字在这里改）
-   font-size: 控制“Enter xxx”字号
-   margin-bottom: 控制与文本框的距离
+   Copy 成功提示（新增）
+   =============================== */
+.copy-hint {
+    position: absolute;
+    bottom: 48px;
+    right: 10px;
+    background: #333;
+    color: #fff;
+    font-size: 14px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+/* ===============================
+   label
    =============================== */
 label {
     font-weight: bold;
-    font-size: 18px;        /* ← 标题文字字号（这里调） */
+    font-size: 18px;
     display: block;
-    margin-bottom: 7px;    /* ← 标题与文本框之间的空白 */
+    margin-bottom: 7px;
 }
 
-/* 容器（用于按钮定位） */
 .box {
     position: relative;
     width: 100%;
 }
 
 /* ===============================
-   手机屏幕自动放大（未改）
+   手机自动放大
    =============================== */
 @media (max-width: 768px) {
     body { margin: 10px; }
@@ -139,6 +147,7 @@ label {
 <div class="box">
     <pre id="output"></pre>
     <button class="small-btn copy-btn" onclick="copyOutput()">COPY</button>
+    <div id="copyHint" class="copy-hint">Copied!</div>
 </div>
 
 <script>
@@ -153,7 +162,13 @@ async function pasteTo(id) {
 
 function copyOutput() {
     const text = document.getElementById("output").textContent;
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => {
+        const hint = document.getElementById("copyHint");
+        hint.style.opacity = "1";
+        setTimeout(() => {
+            hint.style.opacity = "0";
+        }, 1500);
+    });
 }
 
 async function runPython() {
