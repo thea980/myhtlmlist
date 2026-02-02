@@ -73,8 +73,11 @@ button:hover {
     font-size: 16px;
 }
 
+/* ===============================
+   PASTE 按钮改到右下角
+   =============================== */
 .paste-btn {
-    bottom: -6px;
+    bottom: 6px;  /* ← 改动：之前 top:6px, 现在 bottom:6px */
     right: 6px;
 }
 
@@ -84,7 +87,7 @@ button:hover {
 }
 
 /* ===============================
-   Copy 成功提示（新增）
+   Copy 成功提示
    =============================== */
 .copy-hint {
     position: absolute;
@@ -164,14 +167,10 @@ function copyOutput() {
     const text = document.getElementById("output").textContent;
     const copyBtn = document.getElementById("copyBtn");
     navigator.clipboard.writeText(text).then(() => {
-        // 显示小提示
         const hint = document.getElementById("copyHint");
         hint.style.opacity = "1";
-
-        // 按钮短暂变为 ✓
         const originalText = copyBtn.textContent;
         copyBtn.textContent = "✓";
-
         setTimeout(() => {
             hint.style.opacity = "0";
             copyBtn.textContent = originalText;
