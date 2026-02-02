@@ -70,9 +70,9 @@ button:hover {
     z-index: 10;
 }
 
-/* PASTE 按钮右下角，完全在框内 */
+/* PASTE 按钮上方，外置 */
 .paste-btn {
-    bottom: 6px; /* 距离容器底边6px */
+    top: -36px; /* 上方文本框外面6px，36px=按钮高度+间距 */
     right: 6px;
 }
 
@@ -109,7 +109,6 @@ label {
 .box {
     position: relative;
     width: 100%;
-    padding-bottom: 36px; /* 保证按钮完全在框内部显示 */
 }
 
 /* 手机屏幕自适应放大 */
@@ -159,10 +158,8 @@ function copyOutput() {
     const text = document.getElementById("output").textContent;
     const copyBtn = document.getElementById("copyBtn");
     navigator.clipboard.writeText(text).then(() => {
-        // 显示小提示
         const hint = document.getElementById("copyHint");
         hint.style.opacity = "1";
-        // 按钮短暂变为 ✓
         const originalText = copyBtn.textContent;
         copyBtn.textContent = "✓";
         setTimeout(() => {
