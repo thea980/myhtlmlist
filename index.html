@@ -14,9 +14,7 @@ body {
     background-color: #f3edf7;
 }
 
-/* ===============================
-   输入框 & 输出框（内容字体在这里改）
-   =============================== */
+/* 输入框 & 输出框字体和大小 */
 textarea,
 pre {
     width: 100%;
@@ -40,12 +38,8 @@ pre {
     overflow-y: auto;
 }
 
-/* ===============================
-   按钮
-   =============================== */
+/* 按钮 */
 button {
-    padding: 10px 22px;
-    font-size: 16px;
     font-family: "Trebuchet MS", sans-serif;
     font-weight: bold;
     cursor: pointer;
@@ -59,36 +53,36 @@ button:hover {
     background-color: #c9a4dd;
 }
 
+/* 主按钮 */
 .main-btn {
+    display: block;
     margin-top: 12px;
     margin-bottom: 12px;
     font-size: 20px;
     padding: 12px 26px;
 }
 
+/* PASTE / COPY 按钮 */
 .small-btn {
-    position: absolute;
-    z-index: 10;
     padding: 6px 14px;
     font-size: 16px;
+    position: absolute;
+    z-index: 10;
 }
 
-/* ===============================
-   PASTE 按钮改到右下角
-   =============================== */
+/* PASTE 按钮右下角 */
 .paste-btn {
-    bottom: 6px;  /* ← 改动：之前 top:6px, 现在 bottom:6px */
+    bottom: 6px;
     right: 6px;
 }
 
+/* COPY 按钮右下角 */
 .copy-btn {
     bottom: 6px;
     right: 6px;
 }
 
-/* ===============================
-   Copy 成功提示
-   =============================== */
+/* COPY 成功提示 */
 .copy-hint {
     position: absolute;
     bottom: 48px;
@@ -103,24 +97,21 @@ button:hover {
     pointer-events: none;
 }
 
-/* ===============================
-   label
-   =============================== */
+/* 标签样式（字号和空白行距离） */
 label {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 18px;        /* ← 调整标签字体大小 */
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 7px;     /* ← 调整标签下方空白高度 */
 }
 
+/* 容器，用于定位按钮 */
 .box {
     position: relative;
     width: 100%;
 }
 
-/* ===============================
-   手机自动放大
-   =============================== */
+/* 手机屏幕自适应放大 */
 @media (max-width: 768px) {
     body { margin: 10px; }
     textarea, pre { font-size: 18px; }
@@ -133,16 +124,16 @@ label {
 
 <label>Enter Kindoms' names:</label>
 <div class="box">
-    <button class="small-btn paste-btn" onclick="pasteTo('kingdoms')">PASTE</button>
     <textarea id="kingdoms"
         placeholder="GoC or RAG&#10;jabber:&#10;mort:&#10;......"></textarea>
+    <button class="small-btn paste-btn" onclick="pasteTo('kingdoms')">PASTE</button>
 </div>
 
 <label>Enter attendees:</label>
 <div class="box">
-    <button class="small-btn paste-btn" onclick="pasteTo('attendees')">PASTE</button>
     <textarea id="attendees"
         placeholder="chikki,chaos,gilver, ......"></textarea>
+    <button class="small-btn paste-btn" onclick="pasteTo('attendees')">PASTE</button>
 </div>
 
 <button class="main-btn" onclick="runPython()">Generate Groupings</button>
@@ -167,8 +158,10 @@ function copyOutput() {
     const text = document.getElementById("output").textContent;
     const copyBtn = document.getElementById("copyBtn");
     navigator.clipboard.writeText(text).then(() => {
+        // 显示提示
         const hint = document.getElementById("copyHint");
         hint.style.opacity = "1";
+        // 按钮短暂变为 ✓
         const originalText = copyBtn.textContent;
         copyBtn.textContent = "✓";
         setTimeout(() => {
@@ -183,7 +176,6 @@ async function runPython() {
     outputElem.textContent = "Running...\n";
 
     let pyodide = await loadPyodide({indexURL:"https://cdn.jsdelivr.net/pyodide/v0.23.4/full/"});
-
     let kingdomsText = JSON.stringify(document.getElementById("kingdoms").value);
     let attendeesText = JSON.stringify(document.getElementById("attendees").value);
 
