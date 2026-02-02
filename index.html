@@ -47,10 +47,21 @@ button {
     border: none;
     border-radius: 10px;
     color: #333;
+
+    /* 立体阴影效果（略小） */
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.1s ease-in-out;
 }
 
 button:hover {
     background-color: #c9a4dd;
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.4);
+}
+
+button:active {
+    /* 按下去的挤压效果 */
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 /* 主按钮 */
@@ -72,7 +83,7 @@ button:hover {
 
 /* PASTE 按钮上方6px */
 .paste-btn {
-    top: -36px; /* 上移到文本框上方6px，-30是平齐 */
+    top: -36px; /* 上移到文本框上方6px */
     right: 10px;
 }
 
@@ -100,9 +111,9 @@ button:hover {
 /* 标签样式（字号和空白行距离） */
 label {
     font-weight: bold;
-    font-size: 18px;        /* 标签文字字号 */
+    font-size: 18px;
     display: block;
-    margin-bottom: 7px;     /* 标签与文本框间距 */
+    margin-bottom: 7px;
 }
 
 /* 容器，用于定位按钮 */
@@ -111,11 +122,12 @@ label {
     width: 100%;
 }
 
-/* 手机屏幕自适应放大 */
+/* 手机屏幕自适应放大，并保持阴影立体感 */
 @media (max-width: 768px) {
     body { margin: 10px; }
     textarea, pre { font-size: 18px; }
-    button { font-size: 18px; }
+    button { font-size: 18px; box-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    button:hover { box-shadow: 4px 4px 6px rgba(0,0,0,0.4); }
 }
 </style>
 </head>
@@ -216,7 +228,8 @@ while best_result is None:
                 if g not in candidates: continue
                 new_len = len(g) + 1
                 prev_ok = (idx == 0) or (len(groups[idx - 1]) >= new_len)
-                next_ok = (idx == len(groups) - 1) or (new_len >= len(groups[idx + 1]))
+                next_ok = (idx == len(groups) - 1) or (new_len >= len(groups[idx + 1])
+                )
                 if prev_ok and next_ok: valid_candidates.append((len(g), idx, g))
             if not valid_candidates: break
             min_len = min(x[0] for x in valid_candidates)
